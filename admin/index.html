@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Hyman Autos — Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+<style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#EEF1F3;--line:#D5DCE1;--ink:#16232B;--sub:#4C5F6B;--mute:#6E818D;--steel:#23404F;--o:#E4531A;--od:#C7420F;--ok:#17794A;--bad:#B3261E}
+body{font-family:'Archivo',system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;line-height:1.5}
+[hidden]{display:none!important}h1,h2,h3{font-stretch:125%;font-weight:800;line-height:1.1;letter-spacing:-.02em}
+:focus-visible{outline:3px solid var(--o);outline-offset:2px}
+.btn{font:700 .92rem 'Archivo';padding:.65rem 1.2rem;border-radius:8px;border:2px solid transparent;cursor:pointer;background:var(--o);color:#fff;display:inline-flex;align-items:center;justify-content:center;gap:.4rem;text-decoration:none;transition:background .15s,color .15s,border-color .15s}
+.btn:hover{background:var(--od)}.btn[disabled]{opacity:.55;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}.btn.ghost:hover{border-color:var(--o);background:transparent}
+.btn.danger{background:transparent;color:var(--bad);border-color:#E8B4B0}.btn.danger:hover{background:var(--bad);color:#fff;border-color:var(--bad)}
+.btn.sm{padding:.4rem .85rem;font-size:.82rem}
+label{display:block;font-size:.82rem;font-weight:700;margin-bottom:.35rem}
+input,select,textarea{width:100%;font:500 1rem 'Archivo';color:var(--ink);background:#F8FAFB;border:2px solid var(--line);border-radius:8px;padding:.7rem .85rem;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--o);background:#fff}textarea{resize:vertical;min-height:80px}
+.field{margin-bottom:1.1rem}.row2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.note{border-radius:8px;padding:.75rem 1rem;font-size:.9rem;margin-bottom:1rem;border:1px solid}
+.note.warn{background:#FFF6E5;border-color:#F0CE8A;color:#7A5300}.note.err{background:#FDECEA;border-color:#F0B4AF;color:var(--bad)}.note.ok{background:#E9F7EF;border-color:#9BD3B5;color:var(--ok)}
+.gate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem}
+.gate-box{width:100%;max-width:420px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:2.2rem;box-shadow:0 18px 50px rgba(22,35,43,.12)}
+.gate-box .bar{height:5px;width:48px;background:var(--o);border-radius:3px;margin-bottom:1.4rem}
+.gate-box h1{font-size:1.8rem;margin-bottom:.4rem}.gate-sub{font-size:.9rem;color:var(--sub);margin-bottom:1.4rem}
+header.bar{background:var(--steel);color:#fff;padding:.85rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;position:sticky;top:0;z-index:50;border-bottom:4px solid var(--o)}
+.brand{font:800 1.1rem 'Archivo';font-stretch:125%}.brand span{color:#FFB08A}.who{font-size:.8rem;color:#B4C6D0;margin-right:.3rem}
+main{max-width:1040px;margin:0 auto;padding:1.75rem 1.5rem 4rem}
+.tabs{display:inline-flex;gap:.3rem;margin-bottom:1.5rem;background:#fff;border:1px solid var(--line);border-radius:10px;padding:.3rem}
+.tab{font:700 .9rem 'Archivo';padding:.5rem 1.1rem;border-radius:7px;border:none;background:transparent;color:var(--sub);cursor:pointer}.tab.active{background:var(--steel);color:#fff}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:1.2rem;flex-wrap:wrap}.panel-head h2{font-size:1.6rem}.panel-head p{color:var(--sub);font-size:.9rem;margin-top:.2rem}
+.plist{display:grid;gap:.7rem}.prow{display:flex;gap:1rem;align-items:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:.8rem 1rem}
+.prow-thumb{width:64px;height:64px;flex:none;border:1px solid var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#fff}.prow-thumb img{max-width:100%;max-height:100%;object-fit:contain}.prow-thumb .none{font-size:.65rem;color:var(--mute);text-align:center}
+.prow-main{flex:1;min-width:0}.prow-main .cat{font-size:.75rem;font-weight:700;color:var(--od);text-transform:capitalize}.prow-main .nm{font-weight:800}.prow-main .ds{font-size:.85rem;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prow-acts{display:flex;gap:.4rem;flex:none}
+.empty{background:#fff;border:2px dashed var(--line);border-radius:12px;padding:2.5rem;text-align:center;color:var(--sub)}
+.box{background:#fff;border:1px solid var(--line);border-radius:14px;padding:1.8rem}
+.modal{position:fixed;inset:0;background:rgba(22,35,43,.6);display:flex;align-items:flex-start;justify-content:center;padding:1.5rem;overflow-y:auto;z-index:100}
+.modal-box{background:#fff;border-radius:14px;padding:1.8rem;width:100%;max-width:520px;margin:auto}.modal-box h3{font-size:1.4rem;margin-bottom:1.2rem}
+.modal-acts{display:flex;justify-content:flex-end;gap:.6rem;margin-top:.5rem}
+.drop{border:2px dashed var(--line);border-radius:10px;padding:1rem;text-align:center;cursor:pointer;background:#F8FAFB}.drop:hover{border-color:var(--o)}
+#previewImg{max-width:100%;max-height:180px;display:block;margin:0 auto .5rem;object-fit:contain}.hint{font-size:.88rem;color:var(--sub)}
+.spin{width:14px;height:14px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;display:inline-block;animation:sp .7s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
+@media(max-width:600px){.row2{grid-template-columns:1fr}.prow{flex-wrap:wrap}.prow-acts{width:100%}}</style>
+</head>
+<body>
+
+<!-- ============ NOT CONFIGURED ============ -->
+<div class="gate" id="setupScreen" hidden>
+  <div class="gate-box">
+    <div class="bar"></div>
+    <h1>Almost there</h1>
+    <p class="gate-sub">This dashboard is not connected to a database yet.</p>
+    <div class="note warn" id="setupReason"></div>
+    <p class="gate-sub" style="margin-bottom:0">Open <strong>admin.html</strong> and
+      <strong>index.html</strong>, paste your Supabase <em>Project URL</em> and
+      <em>anon public key</em> into the two constants at the top of each script, then reload.
+      Full steps are in <strong>SETUP-DATABASE.md</strong>.</p>
+  </div>
+</div>
+
+<!-- ============ LOGIN ============ -->
+<div class="gate" id="loginScreen" hidden>
+  <form class="gate-box" id="loginForm">
+    <div class="bar"></div>
+    <h1>Hyman Autos</h1>
+    <p class="gate-sub">Sign in to manage your products.</p>
+    <div class="note err" id="loginError" hidden></div>
+    <div class="field">
+      <label for="loginEmail">Email</label>
+      <input id="loginEmail" type="email" autocomplete="username" required>
+    </div>
+    <div class="field">
+      <label for="loginPass">Password</label>
+      <input id="loginPass" type="password" autocomplete="current-password" required>
+    </div>
+    <button class="btn" id="loginBtn" type="submit" style="width:100%">Sign in</button>
+  </form>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="app" hidden>
+  <header class="bar">
+    <div class="brand">Hyman <span>Autos</span> · Dashboard</div>
+    <div style="display:flex;align-items:center;gap:.6rem">
+      <span class="who" id="whoAmI"></span>
+      <a class="btn ghost sm" href="/" target="_blank"
+         style="color:rgba(255,255,255,.75);border-color:rgba(255,255,255,.25)">View shop</a>
+      <button class="btn ghost sm" id="signOutBtn"
+         style="color:rgba(255,255,255,.75);border-color:rgba(255,255,255,.25)">Sign out</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="tabs">
+      <button class="tab active" data-tab="products">Products</button>
+      <button class="tab" data-tab="business">Business details</button>
+    </div>
+    <div class="note ok" id="flash" hidden></div>
+
+    <!-- PRODUCTS -->
+    <section data-panel="products">
+      <div class="panel-head">
+        <div>
+          <h2>Products</h2>
+          <p id="countLine">Loading…</p>
+        </div>
+        <button class="btn" id="addBtn">+ Add product</button>
+      </div>
+      <div class="plist" id="plist"></div>
+      <div class="empty" id="pEmpty" hidden>
+        No products yet. Press <strong>Add product</strong> to put your first item on the site.<br><br>Already have products on the website? <button class="btn" id="importBtn" type="button">Import current shop catalogue</button>
+      </div>
+    </section>
+
+    <!-- BUSINESS -->
+    <section data-panel="business" hidden>
+      <div class="panel-head">
+        <div>
+          <h2>Business details</h2>
+          <p>Your WhatsApp number and social links, used across the website.</p>
+        </div>
+      </div>
+      <form class="box" id="bizForm">
+        <div class="field">
+          <label for="bizWa">WhatsApp number (receives all orders)</label>
+          <input id="bizWa" placeholder="08143020872">
+          <p class="gate-sub" style="margin:.4rem 0 0;font-size:.79rem">
+            Saved as <strong id="waPreview">—</strong>
+          </p>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="bizIg">Instagram</label>
+            <input id="bizIg" placeholder="@hymanautos or full link"></div>
+          <div class="field"><label for="bizFb">Facebook</label>
+            <input id="bizFb" placeholder="hymanautos or full link"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="bizTk">TikTok</label>
+            <input id="bizTk" placeholder="@hymanautos or full link"></div>
+          <div class="field"><label for="bizX">X (Twitter)</label>
+            <input id="bizX" placeholder="@hymanautos or full link"></div>
+        </div>
+        <p class="gate-sub" style="margin-bottom:1rem;font-size:.8rem">
+          Leave a social box empty and that icon simply won't appear on the site.
+        </p>
+        <button class="btn" id="bizSave" type="submit">Save details</button>
+      </form>
+    </section>
+  </main>
+</div>
+
+<!-- ============ EDITOR MODAL ============ -->
+<div class="modal" id="editorModal" hidden>
+  <form class="modal-box" id="editorForm">
+    <h3 id="editorTitle">Add product</h3>
+    <div class="note err" id="editorError" hidden></div>
+
+    <div class="field">
+      <label>Photo</label>
+      <div class="drop" id="dropZone">
+        <img id="previewImg" hidden alt="">
+        <div class="hint" id="dropHint">Click to choose a photo (JPG or PNG)</div>
+      </div>
+      <input type="file" id="fileInput" accept="image/*" hidden>
+      <button type="button" class="btn ghost sm" id="clearImg" hidden
+              style="margin-top:.5rem">Remove photo</button>
+    </div>
+
+    <div class="field">
+      <label for="fName">Product name</label>
+      <input id="fName" required placeholder="e.g. Clutch Plate Set">
+    </div>
+
+    <div class="field">
+      <label for="fCat">Category</label>
+      <select id="fCat"></select>
+      <input id="fCatNew" hidden placeholder="Type the new category name" style="margin-top:.5rem">
+    </div>
+
+    <div class="field">
+      <label for="fDesc">Short description</label>
+      <textarea id="fDesc" placeholder="One line customers will see under the name."></textarea>
+    </div>
+
+    <div class="modal-acts">
+      <button type="button" class="btn ghost" id="cancelBtn">Cancel</button>
+      <button type="submit" class="btn" id="saveBtn">Save product</button>
+    </div>
+  </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* =========================================================================
+   HYMAN AUTOS — dashboard
+   Paste the SAME two values here and in index.html.
+   Supabase → Project Settings → API → Project URL + anon public key.
+   ========================================================================= */
+const SUPABASE_URL = "https://jevuvwrhlgrajjmnxshw.supabase.co";
+const SUPABASE_KEY = "sb_publishable_k6klgwZNcXFG6RnMoKdTaA_74sb8vTp";
+
+const BUCKET = "hyman-product-images";
+const BASE_CATEGORIES = ["engine", "body", "electrical", "accessory", "oil"];
+const NEW_SENTINEL = "__new";
+
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g,
+  c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+let sb = null;
+let PRODUCTS = [];
+let editingId = null;
+let pendingFile = null;   // dataURL of a freshly chosen photo
+let removeExisting = false;
+
+/* ---------- boot ---------- */
+try {
+  if (SUPABASE_URL && SUPABASE_KEY && window.supabase) {
+    sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  }
+} catch (e) { console.error("[init]", e); sb = null; }
+
+/* Self-diagnosing gate: there are only three ways to be unconfigured,
+   so say which one it is instead of a generic failure. */
+function showSetup() {
+  let why;
+  if (!window.supabase) {
+    why = "The Supabase library did not load. Check your internet connection, or whether " +
+          "the jsDelivr script tag at the bottom of this file was removed.";
+  } else if (!SUPABASE_URL && !SUPABASE_KEY) {
+    why = "Both SUPABASE_URL and SUPABASE_KEY are still empty in admin.html.";
+  } else if (!SUPABASE_URL) {
+    why = "SUPABASE_KEY is filled in but SUPABASE_URL is still empty.";
+  } else if (!SUPABASE_KEY) {
+    why = "SUPABASE_URL is filled in but SUPABASE_KEY is still empty.";
+  } else {
+    why = "The Supabase client could not be created. Check the browser console for details.";
+  }
+  $("#setupReason").textContent = "Reason: " + why;
+  $("#setupScreen").hidden = false;
+}
+
+async function start() {
+  if (!sb) { showSetup(); return; }
+  try {
+    const { data } = await sb.auth.getSession();
+    if (data && data.session) { enterApp(data.session); }
+    else { $("#loginScreen").hidden = false; }
+  } catch (e) {
+    console.error("[session]", e);
+    $("#loginScreen").hidden = false;
+  }
+}
+
+/* ---------- auth ---------- */
+function loginProblem(msg) {
+  const m = String(msg || "").toLowerCase();
+  if (m.includes("invalid login")) return "That email and password don't match. Check for typos or caps lock.";
+  if (m.includes("email not confirmed")) return "This account was created without being confirmed. In Supabase, delete the user and re-add with “Auto Confirm User” ticked.";
+  if (m.includes("failed to fetch") || m.includes("network")) return "Could not reach the database. Check your internet connection.";
+  if (m.includes("rate")) return "Too many attempts. Wait a minute and try again.";
+  return msg || "Sign in failed.";
+}
+
+$("#loginForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const btn = $("#loginBtn"), err = $("#loginError");
+  err.hidden = true;
+  if (!sb) { err.textContent = loginProblem("failed to fetch"); err.hidden = false; return; }
+  btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Signing in…';
+  try {
+    const { data, error } = await sb.auth.signInWithPassword({
+      email: $("#loginEmail").value.trim(),
+      password: $("#loginPass").value
+    });
+    if (error) throw error;
+    $("#loginScreen").hidden = true;
+    enterApp(data.session);
+  } catch (ex) {
+    console.error("[login]", ex);
+    err.textContent = loginProblem(ex && ex.message);
+    err.hidden = false;
+  } finally {
+    btn.disabled = false; btn.textContent = "Sign in";
+  }
+});
+
+$("#signOutBtn").addEventListener("click", async () => {
+  try { await sb.auth.signOut(); } catch (e) { console.error("[signout]", e); }
+  location.reload();
+});
+
+async function enterApp(session) {
+  $("#app").hidden = false;
+  $("#whoAmI").textContent = session && session.user ? session.user.email : "";
+  await Promise.all([loadProducts(), loadSettings()]);
+}
+
+/* ---------- tabs ---------- */
+$$(".tab").forEach(t => t.addEventListener("click", () => {
+  $$(".tab").forEach(x => x.classList.remove("active"));
+  t.classList.add("active");
+  $$("[data-panel]").forEach(p => { p.hidden = p.dataset.panel !== t.dataset.tab; });
+}));
+
+let flashTimer = null;
+function flash(msg, bad) {
+  const f = $("#flash");
+  f.textContent = msg;
+  f.className = "note " + (bad ? "err" : "ok");
+  f.hidden = false;
+  clearTimeout(flashTimer);
+  flashTimer = setTimeout(() => { f.hidden = true; }, 4000);
+}
+
+/* ---------- products ---------- */
+async function loadProducts() {
+  try {
+    const { data, error } = await sb.from("products").select("*").order("sort", { ascending: true });
+    if (error) throw error;
+    PRODUCTS = data || [];
+  } catch (e) {
+    console.error("[products]", e);
+    flash("Could not load products: " + (e.message || e), true);
+    PRODUCTS = [];
+  }
+  renderProducts();
+}
+
+function renderProducts() {
+  const list = $("#plist");
+  $("#countLine").textContent = PRODUCTS.length
+    ? PRODUCTS.length + (PRODUCTS.length === 1 ? " product live on the site" : " products live on the site")
+    : "Nothing published yet.";
+  $("#pEmpty").hidden = PRODUCTS.length > 0;
+  list.innerHTML = PRODUCTS.map(p => `
+    <div class="prow">
+      <div class="prow-thumb">${p.image_url
+        ? `<img src="${esc(p.image_url)}" alt="${esc(p.name)}">`
+        : '<span class="none">No<br>photo</span>'}</div>
+      <div class="prow-main">
+        <span class="cat">${esc(p.category || "part")}</span>
+        <div class="nm">${esc(p.name)}</div>
+        <div class="ds">${esc(p.description || "")}</div>
+      </div>
+      <div class="prow-acts">
+        <button class="btn ghost sm" data-edit="${esc(p.id)}">Edit</button>
+        <button class="btn danger sm" data-del="${esc(p.id)}">Delete</button>
+      </div>
+    </div>`).join("");
+}
+
+$("#plist").addEventListener("click", e => {
+  const ed = e.target.closest("[data-edit]");
+  const dl = e.target.closest("[data-del]");
+  if (ed) openEditor(ed.dataset.edit);
+  if (dl) deleteProduct(dl.dataset.del);
+});
+
+/* Keep a product's existing category even if it isn't in BASE_CATEGORIES,
+   so editing a legacy item can never silently change it. */
+function categoryOptions(current) {
+  const all = BASE_CATEGORIES.slice();
+  if (current && !all.includes(current)) all.push(current);
+  return all.map(c => `<option value="${esc(c)}"${c === current ? " selected" : ""}>${esc(c)}</option>`)
+      .join("") + `<option value="${NEW_SENTINEL}">+ New category…</option>`;
+}
+
+$("#addBtn").addEventListener("click", () => openEditor(null));
+
+function openEditor(id) {
+  const p = id ? PRODUCTS.find(x => String(x.id) === String(id)) : null;
+  editingId = p ? p.id : null;
+  pendingFile = null;
+  removeExisting = false;
+
+  $("#editorTitle").textContent = p ? "Edit product" : "Add product";
+  $("#editorError").hidden = true;
+  $("#fName").value = p ? (p.name || "") : "";
+  $("#fDesc").value = p ? (p.description || "") : "";
+
+  const sel = $("#fCat");
+  if (sel) sel.innerHTML = categoryOptions(p ? p.category : BASE_CATEGORIES[0]);
+  $("#fCatNew").hidden = true;
+  $("#fCatNew").value = "";
+
+  setPreview(p && p.image_url ? p.image_url : null);
+  $("#editorModal").hidden = false;
+}
+
+function setPreview(src) {
+  const img = $("#previewImg"), hint = $("#dropHint"), clr = $("#clearImg");
+  if (src) { img.src = src; img.hidden = false; hint.textContent = "Click to choose a different photo"; clr.hidden = false; }
+  else { img.removeAttribute("src"); img.hidden = true; hint.textContent = "Click to choose a photo (JPG or PNG)"; clr.hidden = true; }
+}
+
+$("#fCat").addEventListener("change", e => {
+  const isNew = e.target.value === NEW_SENTINEL;
+  $("#fCatNew").hidden = !isNew;
+  if (isNew) $("#fCatNew").focus();
+});
+
+$("#dropZone").addEventListener("click", () => $("#fileInput").click());
+$("#clearImg").addEventListener("click", () => { pendingFile = null; removeExisting = true; setPreview(null); });
+
+$("#fileInput").addEventListener("change", e => {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  shrink(file).then(dataUrl => { pendingFile = dataUrl; removeExisting = false; setPreview(dataUrl); })
+              .catch(err => { console.error("[image]", err); showEditorError("That image could not be read. Try another file."); });
+  e.target.value = "";
+});
+
+/* Downscale in the browser so uploads stay small and the shop loads fast. */
+function shrink(file, max = 1000, q = 0.82) {
+  return new Promise((resolve, reject) => {
+    const fr = new FileReader();
+    fr.onerror = reject;
+    fr.onload = () => {
+      const img = new Image();
+      img.onerror = reject;
+      img.onload = () => {
+        let { width: w, height: h } = img;
+        if (w > max || h > max) { const r = Math.min(max / w, max / h); w = Math.round(w * r); h = Math.round(h * r); }
+        const c = document.createElement("canvas");
+        c.width = w; c.height = h;
+        const ctx = c.getContext("2d");
+        ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, w, h);
+        ctx.drawImage(img, 0, 0, w, h);
+        resolve(c.toDataURL("image/jpeg", q));
+      };
+      img.src = fr.result;
+    };
+    fr.readAsDataURL(file);
+  });
+}
+
+function showEditorError(msg) { const e = $("#editorError"); e.textContent = msg; e.hidden = false; }
+function closeEditor() { $("#editorModal").hidden = true; editingId = null; pendingFile = null; }
+$("#cancelBtn").addEventListener("click", closeEditor);
+$("#editorModal").addEventListener("click", e => { if (e.target === $("#editorModal")) closeEditor(); });
+
+function dataUrlToBlob(u) {
+  const [head, b64] = u.split(",");
+  const mime = (head.match(/:(.*?);/) || [, "image/jpeg"])[1];
+  const bin = atob(b64);
+  const arr = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+  return new Blob([arr], { type: mime });
+}
+
+async function uploadPhoto(dataUrl) {
+  const blob = dataUrlToBlob(dataUrl);
+  const path = "p-" + Date.now() + "-" + Math.random().toString(36).slice(2, 8) + ".jpg";
+  const { error } = await sb.storage.from(BUCKET).upload(path, blob, {
+    contentType: "image/jpeg", upsert: false
+  });
+  if (error) throw error;
+  return sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
+}
+
+$("#editorForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const btn = $("#saveBtn");
+  $("#editorError").hidden = true;
+
+  const name = $("#fName").value.trim();
+  if (!name) { showEditorError("Give the product a name."); return; }
+
+  const sel = $("#fCat");
+  let category = sel ? sel.value : BASE_CATEGORIES[0];
+  if (category === NEW_SENTINEL) {
+    category = $("#fCatNew").value.trim().toLowerCase();
+    if (!category) { showEditorError("Type the new category name, or pick one from the list."); return; }
+  }
+
+  btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Saving…';
+  try {
+    const existing = editingId ? PRODUCTS.find(p => String(p.id) === String(editingId)) : null;
+    let image_url = existing ? existing.image_url : null;
+
+    if (pendingFile) image_url = await uploadPhoto(pendingFile);
+    else if (removeExisting) image_url = null;
+
+    const row = { name, category, description: $("#fDesc").value.trim(), image_url };
+
+    if (editingId) {
+      const { error } = await sb.from("products").update(row).eq("id", editingId);
+      if (error) throw error;
+    } else {
+      const minSort = PRODUCTS.length ? Math.min(...PRODUCTS.map(p => Number(p.sort) || 0)) : 0;
+      row.sort = minSort - 1;   // newest first
+      const { error } = await sb.from("products").insert(row);
+      if (error) throw error;
+    }
+    closeEditor();
+    await loadProducts();
+    flash(editingId ? "Product updated." : "Product added — it is live on the site now.");
+  } catch (ex) {
+    console.error("[save]", ex);
+    showEditorError("Could not save: " + (ex.message || ex));
+  } finally {
+    btn.disabled = false; btn.textContent = "Save product";
+  }
+});
+
+async function deleteProduct(id) {
+  const p = PRODUCTS.find(x => String(x.id) === String(id));
+  if (!p) return;
+  if (!confirm(`Delete "${p.name}"? This removes it from the website.`)) return;
+  try {
+    const { error } = await sb.from("products").delete().eq("id", id);
+    if (error) throw error;
+    if (p.image_url && p.image_url.includes("/" + BUCKET + "/")) {
+      const path = p.image_url.split("/" + BUCKET + "/")[1];
+      if (path) { try { await sb.storage.from(BUCKET).remove([decodeURIComponent(path)]); } catch (e) { console.warn("[orphan]", e); } }
+    }
+    await loadProducts();
+    flash("Product deleted.");
+  } catch (ex) {
+    console.error("[delete]", ex);
+    flash("Could not delete: " + (ex.message || ex), true);
+  }
+}
+
+/* ---------- settings ---------- */
+function normWa(raw) {
+  let n = String(raw || "").replace(/[^\d]/g, "");
+  if (!n) return "";
+  if (n.startsWith("234")) return n;
+  if (n.startsWith("0")) return "234" + n.slice(1);
+  if (n.length === 10) return "234" + n;
+  return n;
+}
+function updateWaPreview() {
+  const n = normWa($("#bizWa").value);
+  $("#waPreview").textContent = n ? "+" + n : "—";
+}
+$("#bizWa").addEventListener("input", updateWaPreview);
+
+async function loadSettings() {
+  try {
+    const { data, error } = await sb.from("settings").select("*").eq("id", 1).maybeSingle();
+    if (error) throw error;
+    const s = data || {};
+    $("#bizWa").value = s.whatsapp || "";
+    $("#bizIg").value = s.instagram || "";
+    $("#bizFb").value = s.facebook || "";
+    $("#bizTk").value = s.tiktok || "";
+    $("#bizX").value = s.x || "";
+  } catch (e) {
+    console.error("[settings]", e);
+    flash("Could not load business details: " + (e.message || e), true);
+  }
+  updateWaPreview();
+}
+
+$("#bizForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const btn = $("#bizSave");
+  const wa = $("#bizWa").value.trim();
+  if (!wa) { flash("Enter the WhatsApp number that should receive orders.", true); return; }
+
+  btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Saving…';
+  try {
+    const row = {
+      id: 1, whatsapp: wa,
+      instagram: $("#bizIg").value.trim(), facebook: $("#bizFb").value.trim(),
+      tiktok: $("#bizTk").value.trim(), x: $("#bizX").value.trim()
+    };
+    const { error } = await sb.from("settings").upsert(row, { onConflict: "id" });
+    if (error) throw error;
+    flash("Business details saved.");
+  } catch (ex) {
+    console.error("[settings-save]", ex);
+    flash("Could not save: " + (ex.message || ex), true);
+  } finally {
+    btn.disabled = false; btn.textContent = "Save details";
+  }
+});
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && !$("#editorModal").hidden) closeEditor();
+});
+
+start();
+
+/* ---------- one-click import of the catalogue shipped in index.html ---------- */
+$("#importBtn").addEventListener("click", async e => {
+  const btn = e.currentTarget, label = btn.textContent;
+  btn.disabled = true;
+  try {
+    const res = await fetch("../index.html", { cache: "no-store" });
+    if (!res.ok) throw new Error("../index.html not found (shop must be one folder above /admin)");
+    const doc = new DOMParser().parseFromString(await res.text(), "text/html");
+    const cards = [...doc.querySelectorAll("#productsGrid .product-card")];
+    if (!cards.length) throw new Error("No products found in index.html");
+    const rows = [];
+    for (const [i, c] of cards.entries()) {
+      btn.textContent = "Importing " + (i + 1) + " / " + cards.length + "…";
+      const img = c.querySelector(".product-img-wrap img"), svg = c.querySelector(".product-img-wrap svg");
+      let blob = null, ext = "jpg";
+      if (img && (img.getAttribute("src") || "").startsWith("data:")) {
+        blob = dataUrlToBlob(img.getAttribute("src"));
+        ext = (blob.type.split("/")[1] || "jpeg").replace("jpeg", "jpg");
+      } else if (svg) {
+        svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+        const vb = svg.viewBox && svg.viewBox.baseVal;
+        if (vb && vb.width && !svg.getAttribute("width")) { svg.setAttribute("width", vb.width); svg.setAttribute("height", vb.height); }
+        blob = new Blob([new XMLSerializer().serializeToString(svg)], { type: "image/svg+xml" });
+        ext = "svg";
+      }
+      let image_url = null;
+      if (blob) {
+        const path = "import-" + String(i + 1).padStart(2, "0") + "-" + Math.random().toString(36).slice(2, 7) + "." + ext;
+        const { error } = await sb.storage.from(BUCKET).upload(path, blob, { contentType: blob.type, upsert: false });
+        if (error) throw error;
+        image_url = sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
+      }
+      const t = s => (c.querySelector(s) ? c.querySelector(s).textContent.trim() : "");
+      rows.push({ name: t(".product-name"), category: c.dataset.cat || "engine", description: t(".product-desc"), image_url, sort: i });
+    }
+    const { error } = await sb.from("products").insert(rows);
+    if (error) throw error;
+    flash("Imported " + rows.length + " products.");
+    await loadProducts();
+  } catch (err) {
+    console.error("[import]", err);
+    flash("Import failed: " + (err.message || err) + ". Open this page from your hosted site so index.html is reachable.", true);
+    btn.disabled = false; btn.textContent = label;
+  }
+});
+</script>
+</body>
+</html>
